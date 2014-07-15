@@ -22,6 +22,9 @@
 		D307A75B19757FA800E68B8A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D307A73A19757FA800E68B8A /* UIKit.framework */; };
 		D307A76319757FA800E68B8A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D307A76119757FA800E68B8A /* InfoPlist.strings */; };
 		D307A76519757FA800E68B8A /* BrowseOverflowTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D307A76419757FA800E68B8A /* BrowseOverflowTests.m */; };
+		D34A1E84197582C700F99DE0 /* TopicTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A1E83197582C700F99DE0 /* TopicTests.m */; };
+		D34A1E871975834900F99DE0 /* Topic.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A1E861975834900F99DE0 /* Topic.m */; };
+		D34A1E881975834900F99DE0 /* Topic.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A1E861975834900F99DE0 /* Topic.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +59,9 @@
 		D307A76019757FA800E68B8A /* BrowseOverflowTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BrowseOverflowTests-Info.plist"; sourceTree = "<group>"; };
 		D307A76219757FA800E68B8A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D307A76419757FA800E68B8A /* BrowseOverflowTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BrowseOverflowTests.m; sourceTree = "<group>"; };
+		D34A1E83197582C700F99DE0 /* TopicTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicTests.m; sourceTree = "<group>"; };
+		D34A1E851975834900F99DE0 /* Topic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Topic.h; sourceTree = "<group>"; };
+		D34A1E861975834900F99DE0 /* Topic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Topic.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +130,8 @@
 				D307A74F19757FA800E68B8A /* DetailViewController.m */,
 				D307A75119757FA800E68B8A /* Images.xcassets */,
 				D307A73D19757FA800E68B8A /* Supporting Files */,
+				D34A1E851975834900F99DE0 /* Topic.h */,
+				D34A1E861975834900F99DE0 /* Topic.m */,
 			);
 			path = BrowseOverflow;
 			sourceTree = "<group>";
@@ -143,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				D307A76419757FA800E68B8A /* BrowseOverflowTests.m */,
+				D34A1E83197582C700F99DE0 /* TopicTests.m */,
 				D307A75F19757FA800E68B8A /* Supporting Files */,
 			);
 			path = BrowseOverflowTests;
@@ -257,6 +266,7 @@
 				D307A74719757FA800E68B8A /* AppDelegate.m in Sources */,
 				D307A74D19757FA800E68B8A /* MasterViewController.m in Sources */,
 				D307A74319757FA800E68B8A /* main.m in Sources */,
+				D34A1E871975834900F99DE0 /* Topic.m in Sources */,
 				D307A75019757FA800E68B8A /* DetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -265,7 +275,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D34A1E881975834900F99DE0 /* Topic.m in Sources */,
 				D307A76519757FA800E68B8A /* BrowseOverflowTests.m in Sources */,
+				D34A1E84197582C700F99DE0 /* TopicTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -462,6 +474,7 @@
 				D307A76A19757FA800E68B8A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D307A76B19757FA800E68B8A /* Build configuration list for PBXNativeTarget "BrowseOverflowTests" */ = {
 			isa = XCConfigurationList;
@@ -470,6 +483,7 @@
 				D307A76D19757FA800E68B8A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
