@@ -25,6 +25,9 @@
 		D34A1E84197582C700F99DE0 /* TopicTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A1E83197582C700F99DE0 /* TopicTests.m */; };
 		D34A1E871975834900F99DE0 /* Topic.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A1E861975834900F99DE0 /* Topic.m */; };
 		D34A1E881975834900F99DE0 /* Topic.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A1E861975834900F99DE0 /* Topic.m */; };
+		D34A1E8A1975897000F99DE0 /* QuestionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A1E891975897000F99DE0 /* QuestionTests.m */; };
+		D34A1E8D19758A2200F99DE0 /* Question.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A1E8C19758A2200F99DE0 /* Question.m */; };
+		D34A1E8E19758A2200F99DE0 /* Question.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A1E8C19758A2200F99DE0 /* Question.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +65,9 @@
 		D34A1E83197582C700F99DE0 /* TopicTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicTests.m; sourceTree = "<group>"; };
 		D34A1E851975834900F99DE0 /* Topic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Topic.h; sourceTree = "<group>"; };
 		D34A1E861975834900F99DE0 /* Topic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Topic.m; sourceTree = "<group>"; };
+		D34A1E891975897000F99DE0 /* QuestionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionTests.m; sourceTree = "<group>"; };
+		D34A1E8B19758A2200F99DE0 /* Question.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Question.h; sourceTree = "<group>"; };
+		D34A1E8C19758A2200F99DE0 /* Question.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Question.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +138,8 @@
 				D307A73D19757FA800E68B8A /* Supporting Files */,
 				D34A1E851975834900F99DE0 /* Topic.h */,
 				D34A1E861975834900F99DE0 /* Topic.m */,
+				D34A1E8B19758A2200F99DE0 /* Question.h */,
+				D34A1E8C19758A2200F99DE0 /* Question.m */,
 			);
 			path = BrowseOverflow;
 			sourceTree = "<group>";
@@ -151,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				D307A76419757FA800E68B8A /* BrowseOverflowTests.m */,
+				D34A1E891975897000F99DE0 /* QuestionTests.m */,
 				D34A1E83197582C700F99DE0 /* TopicTests.m */,
 				D307A75F19757FA800E68B8A /* Supporting Files */,
 			);
@@ -266,6 +275,7 @@
 				D307A74719757FA800E68B8A /* AppDelegate.m in Sources */,
 				D307A74D19757FA800E68B8A /* MasterViewController.m in Sources */,
 				D307A74319757FA800E68B8A /* main.m in Sources */,
+				D34A1E8D19758A2200F99DE0 /* Question.m in Sources */,
 				D34A1E871975834900F99DE0 /* Topic.m in Sources */,
 				D307A75019757FA800E68B8A /* DetailViewController.m in Sources */,
 			);
@@ -276,6 +286,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D34A1E881975834900F99DE0 /* Topic.m in Sources */,
+				D34A1E8A1975897000F99DE0 /* QuestionTests.m in Sources */,
+				D34A1E8E19758A2200F99DE0 /* Question.m in Sources */,
 				D307A76519757FA800E68B8A /* BrowseOverflowTests.m in Sources */,
 				D34A1E84197582C700F99DE0 /* TopicTests.m in Sources */,
 			);
