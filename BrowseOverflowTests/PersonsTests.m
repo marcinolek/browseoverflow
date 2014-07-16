@@ -35,7 +35,8 @@
     XCTAssertEqualObjects(person.name, @"Graham Lee", @"expecting a person to provide its name");
 }
 
-- (void)testThatPersonHasAnAvatarURL {
+- (void)testThatPersonHasAnAvatarURL
+{
     NSURL *url = person.avatarURL;
     XCTAssertEqualObjects([url absoluteString], @"http://example.com/avatar.png", @"The Person's avatar should be represented by URL");
 }
