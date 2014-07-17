@@ -25,13 +25,7 @@
 
 - (NSArray *)recentQuestions
 {
-    
     return [self sortQuestionsLatestFirst:questions];
-    /*if([sortedQuestions count] < 21) {
-        return sortedQuestions;
-    } else {
-        return [sortedQuestions subarrayWithRange:NSMakeRange(0, 20)];
-    }*/
 }
 
 - (void)addQuestion:(Question *)question
