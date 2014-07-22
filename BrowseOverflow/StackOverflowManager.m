@@ -8,6 +8,7 @@
 
 #import "StackOverflowManager.h"
 #import "Topic.h"
+#import "QuestionBuilder.h"
 
 @implementation StackOverflowManager
 
@@ -26,12 +27,33 @@
 
 - (void)searchingForQuestionsFailedWithError:(NSError *)error
 {
-    NSDictionary *errorInfo = [NSDictionary dictionaryWithObject:error forKey:NSUnderlyingErrorKey];
-    NSError *reportableError = [NSError errorWithDomain:StackOverFlowManagerError code:StackOverflowManagerErrorQuestionSearchCode userInfo:errorInfo];
-    [self.delegate fetchingQuestionsFailedWithError:reportableError];
+    [self tellDelegateAboutQuestionSearchError:error];
+}
+
+- (void)receivedQuestionsJSON:(NSString *)objectNotation
+{
+    NSError *error = nil;
+    NSArray *questions = [self.questionBuilder questionsFromJSON:objectNotation error:&error];
+    if(!questions) {
+        [self tellDelegateAboutQuestionSearchError:error];
+    } else {
+        [self.delegate didReceiveQuestions:questions];
+    }
     
+}
+
+- (void)tellDelegateAboutQuestionSearchError:(NSError *)error
+{
+    NSDictionary *errorInfo = nil;
+    if(error) {
+        errorInfo = [NSDictionary dictionaryWithObject:error forKey:NSUnderlyingErrorKey];
+    }
+    NSError *reportableError = [NSError errorWithDomain:StackOverflowManagerSearchFailedError code:StackOverflowManagerErrorQuestionSearchCode userInfo:errorInfo];
+    [self.delegate fetchingQuestionsFailedWithError:reportableError];
+
 }
 
 @end
 
 NSString *StackOverFlowManagerError = @"StackOverFlowManagerSearchFailedError";
+NSString *StackOverflowManagerSearchFailedError = @"StackOverflowManagerSearchFailedError";
