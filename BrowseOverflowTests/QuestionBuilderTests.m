@@ -21,7 +21,9 @@
 @implementation QuestionBuilderTests
 
 
-static NSString *questionJSON = @"{\"items\":[{\"tags\":[\"iphone\",\"objective-c\",\"orientation\"],\"owner\":{\"reputation\":49,\"user_id\":3723298,\"user_type\":\"registered\",\"accept_rate\":80,\"profile_image\":\"https://www.gravatar.com/avatar/385dcd0e8e0d43057df27c2bcabf35d7?s=128&d=identicon&r=PG&f=1\",\"display_name\":\"turboc\",\"link\":\"http://stackoverflow.com/users/3723298/turboc\"},\"is_answered\":false,\"view_count\":7,\"answer_count\":0,\"score\":3,\"last_activity_date\":1406059927,\"creation_date\":1406059927,\"question_id\":24896953,\"link\":\"http://stackoverflow.com/questions/24896953/portrait-mode-on-one-view-controller\",\"title\":\"portrait mode on one view controller\"}],\"has_more\":true,\"quota_max\":300,\"quota_remaining\":288}";
+static NSString *questionJSON = @"{\"items\":[{\"tags\":[\"iphone\",\"objective-c\",\"orientation\"],\"owner\":{\"reputation\":49,\"user_id\":3723298,\"user_type\":\"registered\",\"accept_rate\":80,\"profile_image\":\"https://www.gravatar.com/avatar/385dcd0e8e0d43057df27c2bcabf35d7?s=128&d=identicon&r=PG&f=1\",\"display_name\":\"turboc\",\"link\":\"http://stackoverflow.com/users/3723298/turboc\"},\"is_answered\":false,\"view_count\":7,\"answer_count\":0,\"score\":3,"
+@"\"body\":\"<p>I think I have been through probably 50 versions of this question today.  The closest answer I got was putting </p>\\n\\n<pre><code>- (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow: (UIWindow *)window{\\n</code></pre>\\n\\n<p>into my app delegate and </p>\\n\\n<pre><code>-(BOOL)shouldAutorotate\\n- (NSUInteger) supportedInterfaceOrientations\\n</code></pre>\\n\\n<p>into the view controller I want to restrict to portrait mode.  In this setup what I found is that the methods in my view controller never get called.  The method in my appdelegate gets called whenever I do a tab bar based segue, but not when I do a push segue in a navigation controller.  </p>\\n\\n<p>I've seen several answers that want me to subclass navigation controllers, but there has to be a more straight forward way.</p>\\n\\n<p>I have an app with three tabs.  Tab 1 is just a home screen.  Tab 2 has a navigation controller feeding through two tableviewscontrollers, and the last table view segue's into a simple view controller.  Tab three goes to one tableviewcontroller which then does a push segue into the same simple view controller where tab 2 terminates.  </p>\\n\\n<p>I want that terminating view controller to always be in portrait.  The other scenes should be able to switch between portrait and landscape as needed.</p>\\n\\n<p>I am in xcode5 IOS7.<br>\\nThanks</p>\\n\","
+@"\"last_activity_date\":1406059927,\"creation_date\":1406059927,\"question_id\":24896953,\"link\":\"http://stackoverflow.com/questions/24896953/portrait-mode-on-one-view-controller\",\"title\":\"portrait mode on one view controller\"}],\"has_more\":true,\"quota_max\":300,\"quota_remaining\":288}";
 
 static NSString *stringIsNotJSON = @"Fake JSON";
 static NSString *noQuestionsJSONString = @"{ \"noitems\": true }";
@@ -99,7 +101,7 @@ static NSString *noQuestionsJSONString = @"{ \"noitems\": true }";
 {
     NSString *emptyQuestion = @"{ \"items\" : [ { } ] }";
     NSArray *questions = [questionBuilder questionsFromJSON:emptyQuestion error:NULL];
-    XCTAssertEqual([questions count], (NSUInteger)0, @"QuestionBuilder must handle partial input");
+    XCTAssertEqual([questions count], (NSUInteger)1, @"QuestionBuilder must handle partial input");
 }
 
 - (void)testBuildingQuestionBodyWithNoDataCannotBeTried
@@ -126,7 +128,8 @@ static NSString *noQuestionsJSONString = @"{ \"noitems\": true }";
 
 - (void)testBodyContainedInJSONIsAddedToQuestion
 {
-    XCTAssertEqualObjects(question.body, @"<p>I've been trying to use persistent keychain references</p>", @"The correct question body is added");
+    [questionBuilder fillInDetailsForQuestion:question fromJSON:questionJSON];
+    XCTAssertEqualObjects(question.body, @"<p>I think I have been through probably 50 versions of this question today.  The closest answer I got was putting </p>\n\n<pre><code>- (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow: (UIWindow *)window{\n</code></pre>\n\n<p>into my app delegate and </p>\n\n<pre><code>-(BOOL)shouldAutorotate\n- (NSUInteger) supportedInterfaceOrientations\n</code></pre>\n\n<p>into the view controller I want to restrict to portrait mode.  In this setup what I found is that the methods in my view controller never get called.  The method in my appdelegate gets called whenever I do a tab bar based segue, but not when I do a push segue in a navigation controller.  </p>\n\n<p>I've seen several answers that want me to subclass navigation controllers, but there has to be a more straight forward way.</p>\n\n<p>I have an app with three tabs.  Tab 1 is just a home screen.  Tab 2 has a navigation controller feeding through two tableviewscontrollers, and the last table view segue's into a simple view controller.  Tab three goes to one tableviewcontroller which then does a push segue into the same simple view controller where tab 2 terminates.  </p>\n\n<p>I want that terminating view controller to always be in portrait.  The other scenes should be able to switch between portrait and landscape as needed.</p>\n\n<p>I am in xcode5 IOS7.<br>\nThanks</p>\n", @"The correct question body is added");
 }
 
 

@@ -53,22 +53,36 @@
 
 }
 
+- (void)tellDelegateAboutQuestionBodyRetrievalError:(NSError *)error
+{
+    NSDictionary *errorInfo = nil;
+    if(error) {
+        errorInfo = [NSDictionary dictionaryWithObject:error forKey:NSUnderlyingErrorKey];
+    }
+    NSError *reportableError = [NSError errorWithDomain:StackOverflowManagerSearchFailedError code:StackOverflowManagerErrorQuestionBodyCode userInfo:errorInfo];
+    [self.delegate fetchingQuestionsFailedWithError:reportableError];
+
+}
+
 - (void)fetchBodyForQuestion:(Question*)questionToFetch
 {
+    self.questionNeedingBody = questionToFetch;
     [self.communicator fetchBodyForQuestion:[questionToFetch questionID]];
 }
 
-- (void)fetchingQuestionBodyFailedWithError:(NSError *)underlyingError
+- (void)fetchingQuestionBodyFailedWithError:(NSError *)error
 {
-    
+    [self tellDelegateAboutQuestionBodyRetrievalError:error];
 }
 
 - (void)receivedQuestionBodyJSON:(NSString *)objectNotation
 {
-    
+    [self.questionBuilder fillInDetailsForQuestion:self.questionNeedingBody fromJSON: objectNotation];
+    self.questionNeedingBody = nil;
 }
 
 @end
 
 NSString *StackOverFlowManagerError = @"StackOverFlowManagerSearchFailedError";
 NSString *StackOverflowManagerSearchFailedError = @"StackOverflowManagerSearchFailedError";
+NSString *StackOverflowQuestionBodyRetrievalFailedError = @"StackOverflowQuestionBodyRetrievalFailedError";

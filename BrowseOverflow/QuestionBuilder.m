@@ -7,6 +7,8 @@
 //
 
 #import "QuestionBuilder.h"
+#import "Question.h"
+#import "Person.h"
 
 @implementation QuestionBuilder
 
@@ -33,13 +35,36 @@
         }
         return nil;
     }
+    NSMutableArray *questionsArray = [[NSMutableArray alloc] initWithCapacity:items.count];
+    for(NSDictionary *dict in items) {
+        Question *q = [[Question alloc] init];
+        q.questionID = [dict[@"question_id"] unsignedIntegerValue];
+        q.date = [NSDate dateWithTimeIntervalSince1970:[dict[@"creation_date"] doubleValue]];
+        q.title = dict[@"title"];
+        q.score = [[dict objectForKey:@"score"] integerValue];
+        NSDictionary *owner = dict[@"owner"];
+        NSString *name = owner[@"display_name"];
+        NSString *avatarLocation = owner[@"profile_image"];
+        Person *asker = [[Person alloc] initWithName:name avatarLocation:avatarLocation];
+        q.asker = asker;
+        [questionsArray addObject:q];
+        
+        
+    }
     
-    return nil;
+    return questionsArray;
 }
 
 - (void)fillInDetailsForQuestion:(Question *)question fromJSON:(NSString *)objectNotation
 {
-    
+    NSParameterAssert(question!=nil);
+    NSParameterAssert(objectNotation!=nil);
+    NSData *unicodeNotation = [objectNotation dataUsingEncoding:NSUTF8StringEncoding];
+    //TODO: details error handling
+    NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:unicodeNotation options:0 error:NULL];
+    NSDictionary *questionObject = [jsonObject[@"items"] lastObject];
+    NSString *body = questionObject[@"body"];
+    question.body = body;
 }
 
 @end

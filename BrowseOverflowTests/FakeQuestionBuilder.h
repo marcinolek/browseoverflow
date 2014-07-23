@@ -9,5 +9,5 @@
 #import "QuestionBuilder.h"
 
 @interface FakeQuestionBuilder : QuestionBuilder
-
+- (void)fillInDetailsForQuestion:(Question *)question fromJSON:(NSString *)objectNotation;
 @end
