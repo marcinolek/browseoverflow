@@ -25,6 +25,9 @@
     NSError *underlyingError;
     NSArray *questionArray;
     FakeQuestionBuilder *questionBuilder;
+    Question *questionToFetch;
+    NSArray *questionArray;
+    StackOverflowCommunicator *communicator;
 }
 
 - (void)setUp
@@ -38,6 +41,10 @@
     questionArray = [NSArray arrayWithObject:question];
     questionBuilder = [[FakeQuestionBuilder alloc] init];
     mgr.questionBuilder = questionBuilder;
+    questionToFetch = [[Question alloc] init];
+    questionArray = [NSArray arrayWithObject:questionToFetch];
+    communicator = [[MockStackOverflowCommunicator alloc] init];
+    mgr.communicator = communicator;
     // Put setup code here. This method is called before the invocation of each test method in the class.
 }
 
@@ -49,6 +56,9 @@
     underlyingError = nil;
     questionArray = nil;
     questionBuilder = nil;
+    questionToFetch = nil;
+    questionArray = nil;
+    communicator = nil;
     [super tearDown];
 }
 
@@ -126,5 +136,32 @@
     [mgr receivedQuestionsJSON:@"Fake JSON"];
     XCTAssertEqualObjects([delegate receivedQuestions], [NSArray array], @"Returning empty array is not an error");
 }
+
+- (void)testAskingForQuestionBodyMeansRequestingData
+{
+    [mgr fetchBodyForQuestion:questionToFetch];
+    XCTAssertTrue([communicator wasAskedToFetchBody], @"The communicator should need to retrieve data for the question body");
+}
+
+- (void)testDlegateNotifiedOfFailureToFetchQuestionBody
+{
+    [mgr fetchingQuestionBodyFailedWithError:underlyingError];
+    XCTAssertNotNil([[[delegate fetchError] userInfo] objectForKey:NSUnderlyingErrorKey],@"Delegate should have found out about this error");
+}
+
+- (void)testManagerPassesRetrievedQuestionBodyToQuestionBuilder
+{
+    [mgr receivedQuestionBodyJSON:@"Fake JSON"];
+    XCTAssertEqualObjects(questionBuilder.JSON, @"Fake JSON", @"Successfully-retrieved data should be passed to the builder");
+}
+
+- (void)testManagerPassesQuestionItWasSentToQuestionBuilderForFillingIn
+{
+    [mgr fetchBodyForQuestion:questionToFetch];
+    [mgr receivedQuestionBodyJSON:@"Fake JSON"];
+    XCTAssertEqualObjects(questionToFetch.questionToFill, questionToFetch, @"The question should have been passed to the builder");
+}
+
+
 
 @end
