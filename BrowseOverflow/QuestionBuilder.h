@@ -8,14 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
+
+@class Question;
+
 @interface QuestionBuilder : NSObject
 
 @property (copy) NSString *JSON;
 @property (copy) NSArray *arrayToReturn;
 @property (copy) NSError *errorToSet;
+@property (nonatomic, strong) Question *questionToFill;
 
 - (NSArray *)questionsFromJSON:(NSString *)objectNotation error:(NSError **)error;
-
+- (void)fillInDetailsForQuestion:(Question *)question fromJSON:(NSString *)objectNotation;
 @end
 
 extern NSString *QuestionBuilderErrorDomain;

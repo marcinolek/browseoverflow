@@ -26,8 +26,7 @@
     NSArray *questionArray;
     FakeQuestionBuilder *questionBuilder;
     Question *questionToFetch;
-    NSArray *questionArray;
-    StackOverflowCommunicator *communicator;
+    MockStackOverflowCommunicator *communicator;
 }
 
 - (void)setUp
@@ -159,7 +158,7 @@
 {
     [mgr fetchBodyForQuestion:questionToFetch];
     [mgr receivedQuestionBodyJSON:@"Fake JSON"];
-    XCTAssertEqualObjects(questionToFetch.questionToFill, questionToFetch, @"The question should have been passed to the builder");
+    XCTAssertEqualObjects(questionBuilder.questionToFill, questionToFetch, @"The question should have been passed to the builder");
 }
 
 

@@ -53,6 +53,21 @@
 
 }
 
+- (void)fetchBodyForQuestion:(Question*)questionToFetch
+{
+    [self.communicator fetchBodyForQuestion:[questionToFetch questionID]];
+}
+
+- (void)fetchingQuestionBodyFailedWithError:(NSError *)underlyingError
+{
+    
+}
+
+- (void)receivedQuestionBodyJSON:(NSString *)objectNotation
+{
+    
+}
+
 @end
 
 NSString *StackOverFlowManagerError = @"StackOverFlowManagerSearchFailedError";

@@ -23,6 +23,8 @@
 
 static NSString *questionJSON = @"{\"items\":[{\"tags\":[\"iphone\",\"objective-c\",\"orientation\"],\"owner\":{\"reputation\":49,\"user_id\":3723298,\"user_type\":\"registered\",\"accept_rate\":80,\"profile_image\":\"https://www.gravatar.com/avatar/385dcd0e8e0d43057df27c2bcabf35d7?s=128&d=identicon&r=PG&f=1\",\"display_name\":\"turboc\",\"link\":\"http://stackoverflow.com/users/3723298/turboc\"},\"is_answered\":false,\"view_count\":7,\"answer_count\":0,\"score\":3,\"last_activity_date\":1406059927,\"creation_date\":1406059927,\"question_id\":24896953,\"link\":\"http://stackoverflow.com/questions/24896953/portrait-mode-on-one-view-controller\",\"title\":\"portrait mode on one view controller\"}],\"has_more\":true,\"quota_max\":300,\"quota_remaining\":288}";
 
+static NSString *stringIsNotJSON = @"Fake JSON";
+static NSString *noQuestionsJSONString = @"{ \"noitems\": true }";
 
 - (void)setUp
 {
@@ -118,8 +120,8 @@ static NSString *questionJSON = @"{\"items\":[{\"tags\":[\"iphone\",\"objective-
 
 - (void)testJSONWhichDoesNotContainABodyDoesNotCauseBodyToBeAdded
 {
-    [questionBuilder fillInDetailsForQuestion:question fromJSON:noQuestionsJSONSTring];
-    XCTAssertNil(question.body, @"There as no body to add");
+    [questionBuilder fillInDetailsForQuestion:question fromJSON:noQuestionsJSONString];
+    XCTAssertNil(question.body, @"There is no body to add");
 }
 
 - (void)testBodyContainedInJSONIsAddedToQuestion

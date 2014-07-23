@@ -37,6 +37,11 @@
     return nil;
 }
 
+- (void)fillInDetailsForQuestion:(Question *)question fromJSON:(NSString *)objectNotation
+{
+    
+}
+
 @end
 
 NSString *QuestionBuilderErrorDomain = @"QuestionBuilderErrorDomain";

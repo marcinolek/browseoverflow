@@ -13,4 +13,10 @@
 {
     
 }
+
+- (void)fetchBodyForQuestion:(NSUInteger)questionID
+{
+    
+}
+
 @end
