@@ -39,6 +39,7 @@ static NSString *noQuestionsJSONString = @"{ \"noitems\": true }";
 - (void)tearDown
 {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
+    question = nil;
     questionBuilder = nil;
     [super tearDown];
 }

@@ -17,6 +17,7 @@
 @property (nonatomic) NSInteger score;
 @property (nonatomic, strong) Person *asker;
 @property (nonatomic, copy) NSString *body;
+
 - (NSArray *)answers;
 - (void)addAnswer:(Answer *)answer;
 
