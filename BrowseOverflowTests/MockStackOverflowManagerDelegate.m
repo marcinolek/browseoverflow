@@ -9,6 +9,7 @@
 #import "MockStackOverflowManagerDelegate.h"
 
 @implementation MockStackOverflowManagerDelegate
+
 - (void)fetchingQuestionsFailedWithError:(NSError *)error
 {
     self.fetchError = error;

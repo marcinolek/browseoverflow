@@ -9,6 +9,7 @@
 #import "StackOverflowManager.h"
 #import "Topic.h"
 #import "QuestionBuilder.h"
+#import "AnswerBuilder.h"
 
 @implementation StackOverflowManager
 
@@ -48,7 +49,7 @@
     if(error) {
         errorInfo = [NSDictionary dictionaryWithObject:error forKey:NSUnderlyingErrorKey];
     }
-    NSError *reportableError = [NSError errorWithDomain:StackOverflowManagerSearchFailedError code:StackOverflowManagerErrorQuestionSearchCode userInfo:errorInfo];
+    NSError *reportableError = [NSError errorWithDomain:StackOverflowManagerError code:StackOverflowManagerErrorQuestionSearchCode userInfo:errorInfo];
     [self.delegate fetchingQuestionsFailedWithError:reportableError];
 
 }
@@ -59,7 +60,7 @@
     if(error) {
         errorInfo = [NSDictionary dictionaryWithObject:error forKey:NSUnderlyingErrorKey];
     }
-    NSError *reportableError = [NSError errorWithDomain:StackOverflowManagerSearchFailedError code:StackOverflowManagerErrorQuestionBodyCode userInfo:errorInfo];
+    NSError *reportableError = [NSError errorWithDomain:StackOverflowManagerError code:StackOverflowManagerErrorQuestionBodyCode userInfo:errorInfo];
     [self.delegate fetchingQuestionsFailedWithError:reportableError];
 
 }
@@ -81,8 +82,33 @@
     self.questionNeedingBody = nil;
 }
 
+- (void)fetchAnswersForQuestion:(Question *)question
+{
+    self.questionToFill = question;
+    [self.communicator downloadAnswersToQuestionWithID:[question questionID]];
+}
+
+- (void)fetchingAnswersFailedWithError:(NSError *)error
+{
+    NSDictionary *errorInfo = nil;
+    if(error) {
+        errorInfo = [NSDictionary dictionaryWithObject:error forKey:NSUnderlyingErrorKey];
+    }
+    NSError *reportableError = [NSError errorWithDomain:StackOverflowManagerError code:StackOverflowManagerErrorAnswerCode userInfo:errorInfo];
+    [self.delegate fetchingAnswersFailedWithError:reportableError];
+}
+
+- (void)receivedAnswerListJSON: (NSString *)objectNotation {
+    NSError *error = nil;
+    if ([self.answerBuilder addAnswersToQuestion: self.questionToFill fromJSON: objectNotation error: &error]) {
+        [self.delegate answersReceivedForQuestion: self.questionToFill];
+        self.questionToFill = nil;
+    }
+    else {
+        [self fetchingAnswersFailedWithError: error];
+    }
+}
+
 @end
 
-NSString *StackOverFlowManagerError = @"StackOverFlowManagerSearchFailedError";
-NSString *StackOverflowManagerSearchFailedError = @"StackOverflowManagerSearchFailedError";
-NSString *StackOverflowQuestionBodyRetrievalFailedError = @"StackOverflowQuestionBodyRetrievalFailedError";
+NSString *StackOverflowManagerError = @"StackOverFlowManagerError";

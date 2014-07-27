@@ -11,4 +11,5 @@
 @interface MockStackOverflowCommunicator : StackOverflowCommunicator
 - (BOOL)wasAskedToFetchQuestions;
 - (BOOL)wasAskedToFetchBody;
+
 @end

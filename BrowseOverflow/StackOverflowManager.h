@@ -12,26 +12,32 @@
 @class Topic;
 @class QuestionBuilder;
 @class Question;
+@class AnswerBuilder;
 
-extern NSString *StackOverFlowManagerError;
-extern NSString *StackOverflowManagerSearchFailedError;
-extern NSString *StackOverflowQuestionBodyRetrievalFailedError;
+extern NSString *StackOverflowManagerError;
+
 enum {
     StackOverflowManagerErrorQuestionSearchCode,
-    StackOverflowManagerErrorQuestionBodyCode
+    StackOverflowManagerErrorQuestionBodyCode,
+    StackOverflowManagerErrorAnswerCode
 };
 
 
 @protocol StackOverflowManagerDelegate <NSObject>
 - (void)fetchingQuestionsFailedWithError:(NSError *)error;
 - (void)didReceiveQuestions:(NSArray *)questions;
+- (void)fetchingAnswersFailedWithError:(NSError *)error;
+- (void)answersReceivedForQuestion: (Question *)question;
+
 @end
 
-@interface StackOverflowManager : NSObject
+@interface StackOverflowManager : NSObject <StackOverflowCommunicatorDelegate>
 @property (strong) StackOverflowCommunicator *communicator;
 @property (nonatomic, weak) id<StackOverflowManagerDelegate> delegate;
 @property (strong) QuestionBuilder *questionBuilder;
+@property (strong) AnswerBuilder *answerBuilder;
 @property (strong) Question *questionNeedingBody;
+@property (strong) Question *questionToFill;
 
 - (void)fetchQuestionsOnTopic:(Topic *)topic;
 - (void)searchingForQuestionsFailedWithError:(NSError *)error;
