@@ -20,4 +20,14 @@
     self.receivedQuestions = questions;
 }
 
+- (void)answersReceivedForQuestion:(Question *)question
+{
+    self.successQuestion = question;
+}
+
+- (void)fetchingAnswersFailedWithError:(NSError *)error
+{
+    self.fetchError = error;
+}
+
 @end
