@@ -7,7 +7,7 @@
 //
 
 #import "TopicTableDataSource.h"
-
+#import "Topic.h"
 @interface TopicTableDataSource () {
     NSArray *topics;
 }
@@ -39,6 +39,13 @@ static NSString *topicCellReuseIdentifier = @"TopicCell";
     }
     topicCell.textLabel.text = [topics[indexPath.row] name];
     return topicCell;
+}
+
+- (Topic *)topicForIndexPath:(NSIndexPath *)indexPath
+{
+    NSParameterAssert(indexPath.section == 0);
+    NSParameterAssert(indexPath.row < topics.count);
+    return topics[indexPath.row];
 }
 
 @end

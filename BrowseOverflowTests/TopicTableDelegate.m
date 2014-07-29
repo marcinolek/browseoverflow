@@ -7,7 +7,14 @@
 //
 
 #import "TopicTableDelegate.h"
-
+#import "TopicTableDataSource.h"
 @implementation TopicTableDelegate
 
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:TopicTableDidSelectTopicNotification object:[self.tableDataSource topicForIndexPath:indexPath] userInfo:nil];
+}
+
 @end
+
+NSString *TopicTableDidSelectTopicNotification = @"TopicTableDidSelectTopicNotification";

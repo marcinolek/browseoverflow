@@ -10,6 +10,8 @@
 
 @class TopicTableDataSource;
 
+extern NSString *TopicTableDidSelectTopicNotification;
+
 @interface TopicTableDelegate : NSObject<UITableViewDelegate>
 @property (strong) TopicTableDataSource *tableDataSource;
 @end
