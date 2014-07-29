@@ -9,12 +9,14 @@
 #import <XCTest/XCTest.h>
 #import "BrowseOverflowViewController.h"
 #import <objc/runtime.h>
-#import "EmptyTableViewDataSource.h"
-#import "EmptyTableViewDelegate.h"
+#import "TopicTableDataSource.h"
+#import "TopicTableDelegate.h"
 
 @interface BrowseOverflowViewControllerTests : XCTestCase {
     BrowseOverflowViewController *viewController;
     UITableView *tableView;
+    id<UITableViewDataSource> dataSource;
+    TopicTableDelegate *delegate;
 }
 @end
 
@@ -26,6 +28,9 @@
     viewController = [[BrowseOverflowViewController alloc] init];
     tableView = [[UITableView alloc] init];
     viewController.tableView = tableView;
+    delegate = [[TopicTableDelegate alloc] init];
+    viewController.dataSource = dataSource;
+    viewController.tableViewDelegate = delegate;
     // Put setup code here. This method is called before the invocation of each test method in the class.
 }
 
@@ -34,6 +39,7 @@
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     viewController = nil;
     tableView = nil;
+    dataSource = nil;
     [super tearDown];
 }
 
@@ -57,18 +63,20 @@
 
 - (void)testViewControllerConnectsDataSourceInViewDidLoad
 {
-    id <UITableViewDataSource> dataSource = [[EmptyTableViewDataSource alloc] init];
-    viewController.dataSource = dataSource;
     [viewController viewDidLoad];
     XCTAssertEqualObjects([tableView dataSource], dataSource, @"View controller should have set the table view's data source");
 }
 
 - (void)testViewControllerConnectsDelegateInViewDidLoad
 {
-    id <UITableViewDelegate> delegate = [[EmptyTableViewDelegate alloc] init];
-    viewController.tableViewDelegate = delegate;
     [viewController viewDidLoad];
     XCTAssertEqualObjects([tableView delegate], delegate, @"View Controller should have set the table view's delegate");
+}
+
+- (void)testViewControllerConnectsDataSourceToDelegate
+{
+    [viewController viewDidLoad];
+    XCTAssertEqualObjects(delegate.tableDataSource, dataSource, @"The view controller should tell the table view delegate about its data source");
 }
 
 @end

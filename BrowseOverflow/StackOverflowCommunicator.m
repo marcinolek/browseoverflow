@@ -39,7 +39,7 @@
 
 - (void)downloadInformationForQuestionWithID:(NSUInteger)ident
 {
-    [self fetchContentAtURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://api.stackexchange.com/2.2/questions/%d&site=stackoverflow&filter=!9YdnSJBlX",ident]] errorHandler:^(NSError *error) {
+    [self fetchContentAtURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://api.stackexchange.com/2.2/questions/%lu&site=stackoverflow&filter=!9YdnSJBlX",(unsigned long)ident]] errorHandler:^(NSError *error) {
         [delegate fetchingQuestionBodyFailedWithError:error];
     } successHandler:^(NSString *objectNotation) {
         [delegate receivedQuestionBodyJSON:objectNotation];
@@ -48,7 +48,7 @@
 
 - (void)downloadAnswersToQuestionWithID:(NSUInteger)ident
 {
-    [self fetchContentAtURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://api.stackexchange.com/2.2/questions/%d/answers?site=stackoverflow&filter=!9YdnSK0R1",ident]] errorHandler:^(NSError *error) {
+    [self fetchContentAtURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://api.stackexchange.com/2.2/questions/%lu/answers?site=stackoverflow&filter=!9YdnSK0R1",(unsigned long)ident]] errorHandler:^(NSError *error) {
         [delegate fetchingAnswersFailedWithError:error];
     } successHandler:^(NSString *objectNotation) {
         [delegate receivedAnswerListJSON:objectNotation];

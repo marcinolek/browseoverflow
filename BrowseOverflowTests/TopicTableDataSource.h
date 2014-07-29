@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface EmptyTableViewDataSource : NSObject<UITableViewDataSource>
+@interface TopicTableDataSource : NSObject<UITableViewDataSource>
+
+- (void)setTopics:(NSArray *)newTopics;
 
 @end

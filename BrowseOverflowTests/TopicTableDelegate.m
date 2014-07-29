@@ -6,8 +6,8 @@
 //  Copyright (c) 2014 Marcin Olek. All rights reserved.
 //
 
-#import "EmptyTableViewDelegate.h"
+#import "TopicTableDelegate.h"
 
-@implementation EmptyTableViewDelegate
+@implementation TopicTableDelegate
 
 @end
