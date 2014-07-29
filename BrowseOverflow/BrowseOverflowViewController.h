@@ -14,6 +14,6 @@
 @interface BrowseOverflowViewController : UIViewController
 
 @property (strong) UITableView *tableView;
-@property (strong) TopicTableDataSource *dataSource;
-@property (strong) TopicTableDelegate *tableViewDelegate;
+@property (strong) id<UITableViewDataSource,UITableViewDelegate> dataSource;
+
 @end

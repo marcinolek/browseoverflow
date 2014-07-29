@@ -7,7 +7,6 @@
 //
 
 #import "BrowseOverflowViewController.h"
-#import "TopicTableDelegate.h"
 #import "TopicTableDataSource.h"
 
 @interface BrowseOverflowViewController ()
@@ -28,9 +27,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.tableView.delegate = self.tableViewDelegate;
     self.tableView.dataSource = self.dataSource;
-    self.tableViewDelegate.tableDataSource = self.dataSource;
+    self.tableView.delegate = self.dataSource;
     // Do any additional setup after loading the view from its nib.
 }
 

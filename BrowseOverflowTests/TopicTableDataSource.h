@@ -10,8 +10,10 @@
 
 @class Topic;
 
-@interface TopicTableDataSource : NSObject<UITableViewDataSource>
+extern NSString *TopicTableDidSelectTopicNotification;
+
+@interface TopicTableDataSource : NSObject<UITableViewDataSource, UITableViewDelegate>
 
 - (void)setTopics:(NSArray *)newTopics;
-- (Topic *)topicForIndexPath:(NSIndexPath *)indexPath;
+
 @end

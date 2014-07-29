@@ -48,4 +48,11 @@ static NSString *topicCellReuseIdentifier = @"TopicCell";
     return topics[indexPath.row];
 }
 
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:TopicTableDidSelectTopicNotification object:[self topicForIndexPath:indexPath] userInfo:nil];
+}
+
 @end
+
+NSString *TopicTableDidSelectTopicNotification = @"TopicTableDidSelectTopicNotification";
