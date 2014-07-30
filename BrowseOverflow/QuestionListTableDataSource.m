@@ -10,6 +10,7 @@
 #import "Topic.h"
 #import "QuestionSummaryCell.h"
 #import "Person.h"
+#import "AvatarStore.h"
 
 @implementation QuestionListTableDataSource
 
@@ -31,6 +32,13 @@
         self.summaryCell.titleLabel.text = question.title;
         self.summaryCell.scoreLabel.text = [NSString stringWithFormat:@"%d",question.score];
         self.summaryCell.nameLabel.text = question.asker.name;
+        
+        NSData *avatarData = [self.avatarStore dataForURL:question.asker.avatarURL];
+        if(avatarData) {
+            self.summaryCell.avatarView.image = [UIImage imageWithData:avatarData];
+        }
+        
+        
         cell = self.summaryCell;
         self.summaryCell = nil;
     } else {
@@ -41,6 +49,21 @@
         cell.textLabel.text = @"There was a problem connecting to the network.";
     }
     return cell;
+}
+
+- (void)registerForUpdatesToAvatarStore:(AvatarStore *)store
+{
+    [self.notificationCenter addObserver:self selector:@selector(avatarStoreDidUpdateContent:) name:AvatarStoreDidUpdateContentNotification object:store];
+}
+
+- (void)removeObservationOfUpdatesToAvatarStore:(AvatarStore *)store
+{
+    [self.notificationCenter removeObserver:self name:AvatarStoreDidUpdateContentNotification object:store];
+}
+
+- (void)avatarStoreDidUpdateContent:(NSNotification *)notification
+{
+    [self.tableView reloadData];
 }
 
 @end

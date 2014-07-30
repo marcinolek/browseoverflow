@@ -15,4 +15,12 @@
 @interface QuestionListTableDataSource : NSObject<UITableViewDataSource, UITableViewDelegate>
 @property (strong) Topic *topic;
 @property (weak) IBOutlet QuestionSummaryCell *summaryCell;
+@property (strong) AvatarStore *avatarStore;
+@property (weak) UITableView *tableView;
+@property (strong) NSNotificationCenter *notificationCenter;
+
+- (void)registerForUpdatesToAvatarStore:(AvatarStore *)store;
+- (void)removeObservationOfUpdatesToAvatarStore:(AvatarStore *)store;
+- (void)avatarStoreDidUpdateContent:(NSNotification *)notification;
+
 @end

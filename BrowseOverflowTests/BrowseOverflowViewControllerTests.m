@@ -179,4 +179,12 @@ static const char *viewWillDissapearKey = "BrowseOverflowViewControllerViewWillD
     XCTAssertEqualObjects([(QuestionListTableDataSource *)nextViewController.dataSource topic], iphoneTopic, @"The questions to display should come from the selected topic");
 }
 
+- (void)testViewControllerConnectsTableViewBacklinkInViewDidLoad
+{
+    QuestionListTableDataSource *questionsDataSource = [[QuestionListTableDataSource alloc] init];
+    viewController.dataSource = questionsDataSource;
+    [viewController viewDidLoad];
+    XCTAssertEqualObjects(questionsDataSource.tableView, tableView, @"Back-link to table view should be set in data source");
+}
+
 @end

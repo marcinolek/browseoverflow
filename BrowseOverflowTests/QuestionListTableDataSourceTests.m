@@ -12,6 +12,12 @@
 #import "Question.h"
 #import "Answer.h"
 #import "Person.h"
+#import "QuestionSummaryCell.h"
+#import "AvatarStore.h"
+#import "AvatarStore+TestingExtensions.h"
+#import "FakeNotificationCenter.h"
+#import "ReloadDataWatcher.h"
+#import "BrowseOverflowViewController.h"
 
 @interface QuestionListTableDataSourceTests : XCTestCase
 
@@ -23,6 +29,9 @@
     NSIndexPath *firstCell;
     Question *question1, *question2;
     Person *asker1;
+    AvatarStore *store;
+    NSNotification *receivedNotification;
+
 }
 
 - (void)setUp
@@ -39,6 +48,25 @@
     question2.title = @"Question Two";
     asker1 = [[Person alloc] initWithName:@"Marcin Olek" avatarLocation:@"http://gravatar.com/userimage/54427651/aa2bea90f6a2bc5307fe12ecc4d697bf.jpg"];
     question1.asker = asker1;
+    store = [[AvatarStore alloc] init];
+}
+
+- (void)tearDown
+{
+    dataSource = nil;
+    iPhoneTopic = nil;
+    firstCell = nil;
+    question1 = nil;
+    question2 = nil;
+    asker1 = nil;
+    store = nil;
+    receivedNotification = nil;
+    [super tearDown];
+}
+
+- (void)didReceiveNotification:(NSNotification *)note
+{
+    receivedNotification = note;
 }
 
 - (void)testTopicWithNoQuestionsLeadsToOneRowInTheTable
@@ -63,7 +91,7 @@
 {
     [iPhoneTopic addQuestion:question1];
     UITableViewCell *placeholderCell = [dataSource tableView:nil cellForRowAtIndexPath:firstCell];
-    XCTAssertTrue([placeholderCell.textLabel.text isEqualToString:@"There was a problem connecting to the network."], @"The placeholder cell should only be shown when there's no content");
+    XCTAssertFalse([placeholderCell.textLabel.text isEqualToString:@"There was a problem connecting to the network."], @"The placeholder cell should only be shown when there's no content");
 }
 
 - (void)testCellPropertiesAreTheSameAsTheQuestion
@@ -75,16 +103,43 @@
     XCTAssertEqualObjects(cell.nameLabel.text, @"Marcin Olek", @"Question cells display the asker's name");
 }
 
-- (void)tearDown
+#pragma mark Avatar retriever tests
+
+- (void)testCellGetsImageFromAvatarStore
 {
-    dataSource = nil;
-    iPhoneTopic = nil;
-    firstCell = nil;
-    question1 = nil;
-    question2 = nil;
-    asker1 = nil;
-    [super tearDown];
+    dataSource.avatarStore = store;
+    NSURL *imageURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"Marcin_Olek" withExtension:@"jpg"];
+    NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+    [store setData:imageData forLocation:@"http://gravatar.com/userimage/54427651/aa2bea90f6a2bc5307fe12ecc4d697bf.jpg"];
+    [iPhoneTopic addQuestion:question1];
+    QuestionSummaryCell *cell = (QuestionSummaryCell *)[dataSource tableView:nil cellForRowAtIndexPath:firstCell];
+    XCTAssertNotNil(cell.avatarView.image,@"The avatar store should supply the avatar image");
 }
 
+- (void)testQuestionListRegisteredForAvatarNotifications
+{
+    FakeNotificationCenter *center = [FakeNotificationCenter new];
+    dataSource.notificationCenter = (NSNotificationCenter *)center;
+    [dataSource registerForUpdatesToAvatarStore:store];
+    XCTAssertTrue([center hasObject:dataSource forNotification:AvatarStoreDidUpdateContentNotification], @"The data source should no longer listen to avatar store notifications");
+}
+
+- (void)testQuestionListStopRegisteringForAvatarNotifications
+{
+    FakeNotificationCenter *center = [FakeNotificationCenter new];
+    dataSource.notificationCenter = (NSNotificationCenter *)center;
+    [dataSource registerForUpdatesToAvatarStore:store];
+    [dataSource removeObservationOfUpdatesToAvatarStore:store];
+    XCTAssertFalse([center hasObject:dataSource forNotification:AvatarStoreDidUpdateContentNotification], @"The data source should no longer listen to avatar store notifications");
+}
+
+- (void)testQuestionListCausesTableReloadOnAvatarNotification
+{
+    ReloadDataWatcher *fakeTableView = [[ReloadDataWatcher alloc] init];
+    dataSource.tableView = (UITableView *)fakeTableView;
+    [dataSource avatarStoreDidUpdateContent:nil];
+    XCTAssertTrue([fakeTableView didReceiveReloadData], @"Data source should get the table view to reload when new data is available");
+    
+}
 
 @end
