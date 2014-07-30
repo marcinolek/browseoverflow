@@ -41,7 +41,7 @@
     highScore = [[Answer alloc] init];
     highScore.score = 4;
     [question addAnswer:highScore];
-    asker = [[Person alloc] initWithName:@"Graham Lee" avatarLocation:@"http://example.com/avatar.png"];
+    asker = [[Person alloc] initWithName:@"Marcin Olek" avatarLocation:@"http://example.com/avatar.png"];
     question.asker = asker;
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.

@@ -18,7 +18,7 @@
 
 - (void)setUp
 {
-    person = [[Person alloc] initWithName: @"Graham Lee" avatarLocation: @"http://example.com/avatar.png"];
+    person = [[Person alloc] initWithName: @"Marcin Olek" avatarLocation: @"http://example.com/avatar.png"];
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
 }
@@ -32,7 +32,7 @@
 
 - (void)testThatPersonHasTheRightName
 {
-    XCTAssertEqualObjects(person.name, @"Graham Lee", @"expecting a person to provide its name");
+    XCTAssertEqualObjects(person.name, @"Marcin Olek", @"expecting a person to provide its name");
 }
 
 - (void)testThatPersonHasAnAvatarURL
