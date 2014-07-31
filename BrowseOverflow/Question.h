@@ -13,7 +13,7 @@
 @interface Question : NSObject
 @property (nonatomic, strong) NSDate *date;
 @property (nonatomic) NSUInteger questionID;
-@property (nonatomic, strong) NSString *title;
+@property (nonatomic, copy) NSString *title;
 @property (nonatomic) NSInteger score;
 @property (nonatomic, strong) Person *asker;
 @property (nonatomic, copy) NSString *body;
