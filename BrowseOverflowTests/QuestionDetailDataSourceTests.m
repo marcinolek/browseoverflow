@@ -64,7 +64,7 @@
     secondAnswerPath = [NSIndexPath indexPathForRow:1 inSection:1];
     store = [[AvatarStore alloc] init];
     dataSource = [[QuestionDetailDataSource alloc] init];
-    dataSource.question question;
+    dataSource.question = question;
     imageURL = [NSURL URLWithString:@"http://gravatar.com/userimage/54427651/aa2bea90f6a2bc5307fe12ecc4d697bf.jpg"];
     imageData = [NSData dataWithContentsOfURL:imageURL];
 }
@@ -163,14 +163,14 @@
 
 - (void)testQuestionCellIsAtLeastAsTallAsItsContent
 {
-    Cell *cell = (QuestionDetailCell *)[dataSource tableView:nil cellForRowAtIndexPath:questionDetailsPath];
+    QuestionDetailCell *cell = (QuestionDetailCell *)[dataSource tableView:nil cellForRowAtIndexPath:questionDetailsPath];
     CGFloat height = [dataSource tableView:nil heightForRowAtIndexPath:questionDetailsPath];
     XCTAssert(height > cell.frame.size.height, @"Question row should be at least as tall as its content");
 }
 
 - (void)testAnswerCellIsAtLeastAsTallAsItsContent
 {
-    Cell *cell = (AnswerCell *)[dataSource tableView:nil cellForRowAtIndexPath:firstAnswerPath];
+    AnswerCell *cell = (AnswerCell *)[dataSource tableView:nil cellForRowAtIndexPath:firstAnswerPath];
     CGFloat height = [dataSource tableView:nil heightForRowAtIndexPath:firstAnswerPath];
     XCTAssert(height > cell.frame.size.height, @"Answer row should be at least as tall as its content");
 }

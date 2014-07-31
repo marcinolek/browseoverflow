@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class Question;
+@class AvatarStore;
 @interface QuestionDetailDataSource : NSObject<UITableViewDataSource, UITableViewDelegate>
-
+@property (strong) Question *question;
+@property (strong) AvatarStore *avatarStore;
 @end

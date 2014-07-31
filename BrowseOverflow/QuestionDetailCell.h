@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface QuestionDetailCell : UITableViewCell
-
+@property (weak) IBOutlet UILabel *titleLabel;
+@property (weak) IBOutlet UILabel *askerNameLabel;
+@property (weak) IBOutlet UIWebView *bodyWebView;
+@property (weak) IBOutlet UILabel *scoreLabel;
+@property (weak) IBOutlet UIImageView *avatarView;
 @end
