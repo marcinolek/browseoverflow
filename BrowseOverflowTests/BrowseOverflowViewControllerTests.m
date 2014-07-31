@@ -205,11 +205,11 @@ static const char *viewWillDissapearKey = "BrowseOverflowViewControllerViewWillD
     [BrowseOverflowViewControllerTests swapInstanceMethodsForClass:[BrowseOverflowViewController class] selector:realUserDidSelectQuestion andSelector:testUserDidSelectQuestion];
 }
 
-- (void)testViewControllerDoesReceiveQuestionSelectionNotificationAfterViewWillAppear
+- (void)testViewControllerDoesReceiveQuestionSelectionNotificationAfterViewDidAppear
 {
     
     [BrowseOverflowViewControllerTests swapInstanceMethodsForClass:[BrowseOverflowViewController class] selector:realUserDidSelectQuestion andSelector:testUserDidSelectQuestion];
-    [viewController viewWillAppear:NO];
+    [viewController viewDidAppear:NO];
     [[NSNotificationCenter defaultCenter] postNotificationName:QuestionListDidSelectQuestionNotification object:nil userInfo:nil];
     XCTAssertNotNil(objc_getAssociatedObject(viewController, notificationKey), @"Notification should be received after -viewDidAppear:");
     [BrowseOverflowViewControllerTests swapInstanceMethodsForClass:[BrowseOverflowViewController class] selector:realUserDidSelectQuestion andSelector:testUserDidSelectQuestion];

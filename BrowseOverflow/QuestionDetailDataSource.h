@@ -9,7 +9,11 @@
 #import <UIKit/UIKit.h>
 @class Question;
 @class AvatarStore;
+@class QuestionDetailCell;
+@class AnswerCell;
 @interface QuestionDetailDataSource : NSObject<UITableViewDataSource, UITableViewDelegate>
 @property (strong) Question *question;
 @property (strong) AvatarStore *avatarStore;
+@property (weak) IBOutlet QuestionDetailCell *detailCell;
+@property (weak) IBOutlet AnswerCell *answerCell;
 @end

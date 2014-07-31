@@ -44,12 +44,14 @@
 {
     [super viewDidAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidSelectTopicNotification:) name:TopicTableDidSelectTopicNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidSelectQuestionNotification:) name:QuestionListDidSelectQuestionNotification object:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:TopicTableDidSelectTopicNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:QuestionListDidSelectQuestionNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning
