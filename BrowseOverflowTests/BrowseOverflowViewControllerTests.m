@@ -13,6 +13,9 @@
 #import "Topic.h"
 #import "QuestionListTableDataSource.h"
 #import "QuestionDetailDataSource.h"
+#import "BrowseOverflowConfigurationObject.h"
+#import "TestObjectConfiguration.h"
+#import "MockStackOverflowManager.h"
 
 @interface BrowseOverflowViewControllerTests : XCTestCase {
     BrowseOverflowViewController *viewController;
@@ -23,6 +26,7 @@
     SEL realUserDidSelectTopic, testUserDidSelectTopic;
     SEL realUserDidSelectQuestion, testUserDidSelectQuestion;
     UINavigationController *navController;
+    BrowseOverflowConfigurationObject *objectConfiguration;
 }
 @end
 
@@ -79,6 +83,8 @@ static const char *viewWillDissapearKey = "BrowseOverflowViewControllerViewWillD
     viewController.tableView = tableView;
     dataSource = [[TopicTableDataSource alloc] init];
     viewController.dataSource = dataSource;
+    objectConfiguration = [[BrowseOverflowConfigurationObject alloc] init];
+    viewController.objectConfiguration = objectConfiguration;
     objc_removeAssociatedObjects(viewController);
     realViewDidAppear = @selector(viewDidAppear:);
     testViewDidAppear = @selector(browseOverflowViewControllerTests_viewDidAppear:);
@@ -245,5 +251,57 @@ static const char *viewWillDissapearKey = "BrowseOverflowViewControllerViewWillD
     XCTAssertTrue([nextVC.dataSource isKindOfClass:[QuestionDetailDataSource class]], @"Selecting a question should show details for the question");
     XCTAssertEqualObjects([(QuestionDetailDataSource *)nextVC.dataSource question], sampleQuestion, @"Question should be passed to the data source");
 }
+
+- (void)testSelectingTopicNoficiationPassesObjectConfigurationToNewViewController
+{
+    [viewController userDidSelectTopicNotification:nil];
+    BrowseOverflowViewController *newTopVC = (BrowseOverflowViewController *)navController.topViewController;
+    XCTAssertEqualObjects(newTopVC.objectConfiguration, objectConfiguration, @"The object configuration should be passed through to the new VC");
+    
+}
+
+- (void)testSelectingQuestionNoficiationPassesObjectConfigurationToNewViewController
+{
+    [viewController userDidSelectQuestionNotification:nil];
+    BrowseOverflowViewController *newTopVC = (BrowseOverflowViewController *)navController.topViewController;
+    XCTAssertEqualObjects(newTopVC.objectConfiguration, objectConfiguration, @"The object configuration should be passed through to the new VC");
+    
+}
+
+- (void)testViewWillAppearOnQuestionListInitiatesLoadingOfQuestion
+{
+    TestObjectConfiguration *configuration = [[TestObjectConfiguration alloc] init];
+    MockStackOverflowManager *manager = [[MockStackOverflowManager alloc] init];
+    configuration.objectToReturn = manager;
+    viewController.objectConfiguration = configuration;
+    viewController.dataSource = [[QuestionListTableDataSource alloc] init];
+    [viewController viewWillAppear:YES];
+    XCTAssertTrue([manager didFetchQuestions], @"View controller should have arranged for question content to be downloaded");
+}
+
+// TODO: “Don’t forget to write additional tests to ensure that the question list isn’t requested at other times (and that the question details are loaded when required).”
+
+- (void)testViewWillAppearOnQuestionDetailsDoesNotInitiateLoadingOfQuestion
+{
+    TestObjectConfiguration *configuration = [[TestObjectConfiguration alloc] init];
+    MockStackOverflowManager *manager = [[MockStackOverflowManager alloc] init];
+    configuration.objectToReturn = manager;
+    viewController.objectConfiguration = configuration;
+    viewController.dataSource = [[QuestionDetailDataSource alloc] init];
+    [viewController viewWillAppear:YES];
+    XCTAssertFalse([manager didFetchQuestions], @"View controller mustn't arrange question content to be downloaded when question details are displayed");
+}
+
+- (void)testViewControllerConformsToStackOverflowManagerDelegateProtocol
+{
+    XCTAssertTrue([viewController conformsToProtocol:@protocol(StackOverflowManagerDelegate)], @"View controllers need to be StackOverflowManagerDelegates");
+}
+
+- (void)testViewControllerConfiguredAsStackOverflowManagerDelegateOnManagerCreation
+{
+    [viewController viewWillAppear:YES];
+    XCTAssertEqualObjects(viewController.manager.delegate, viewController, @"View controller sets itself as the manager's delegate");
+}
+
 
 @end

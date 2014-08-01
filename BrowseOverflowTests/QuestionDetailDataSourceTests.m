@@ -147,7 +147,7 @@
     [store setData: imageData forLocation: @"http://example.com/avatar"];
     AnswerCell *secondAnswerCell = (AnswerCell *)[dataSource tableView:nil cellForRowAtIndexPath:secondAnswerPath];
     UIWebView *bodyView = secondAnswerCell.bodyWebView;
-    [[NSRunLoop currentRunLoop] runUntilDate: [NSDate dateWithTimeIntervalSinceNow: 0.5]];
+    [[NSRunLoop currentRunLoop] runUntilDate: [NSDate dateWithTimeIntervalSinceNow: 2.0]];
     NSString *bodyHTML = [bodyView stringByEvaluatingJavaScriptFromString: @"document.body.innerHTML"];
     XCTAssertEqualObjects(bodyHTML, @"<p>strictly-for-the-birds answer</p>\n", @"Answer cell should display answer body");
     XCTAssertEqualObjects(secondAnswerCell.scoreLabel.text, @"-99", @"Answer cell should display answer score");

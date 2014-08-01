@@ -8,7 +8,8 @@
 
 #import "StackOverflowManager.h"
 
-@interface MockStackOverflowManager : StackOverflowManager {
+
+@interface MockStackOverflowManager : NSObject<StackOverflowCommunicatorDelegate> {
     NSInteger topicFailureErrorCode;
     NSInteger bodyFailureErrorCode;
     NSInteger answerFailureErrorCode;
@@ -34,5 +35,7 @@
 - (void)fetchQuestionsOnTopic: (Topic *)topic;
 - (void)fetchAnswersForQuestion: (Question *)question;
 - (void)fetchBodyForQuestion: (Question *)question;
+
+@property (strong) id delegate;
 
 @end

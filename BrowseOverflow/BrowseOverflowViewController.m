@@ -10,8 +10,10 @@
 #import "TopicTableDataSource.h"
 #import "QuestionListTableDataSource.h"
 #import "QuestionDetailDataSource.h"
-
+#import "BrowseOverflowConfigurationObject.h"
+#import "StackOverflowManager.h"
 #import <objc/runtime.h>
+
 @interface BrowseOverflowViewController ()
 
 @end
@@ -38,6 +40,17 @@
     }
     
     // Do any additional setup after loading the view from its nib.
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.manager = [self.objectConfiguration stackOverflowManager];
+    self.manager.delegate = self;
+    if([self.dataSource isKindOfClass:[QuestionListTableDataSource class]]) {
+        Topic *selectedTopic = [(QuestionListTableDataSource *)self.dataSource topic];
+        [self.manager fetchQuestionsOnTopic:selectedTopic];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -67,6 +80,7 @@
     QuestionListTableDataSource *dataSource = [[QuestionListTableDataSource alloc] init];
     dataSource.topic = selectedTopic;
     nextViewController.dataSource = dataSource;
+    nextViewController.objectConfiguration = self.objectConfiguration;
     [[self navigationController] pushViewController:nextViewController animated:YES];
 }
 
@@ -77,7 +91,30 @@
     QuestionDetailDataSource *dataSource = [[QuestionDetailDataSource alloc] init];
     dataSource.question = question;
     nextViewController.dataSource = dataSource;
+    nextViewController.objectConfiguration = self.objectConfiguration;
     [[self navigationController] pushViewController:nextViewController animated:YES];
+}
+
+#pragma mark StackOverflowManagerDelegate
+
+- (void)fetchingAnswersFailedWithError:(NSError *)error
+{
+    
+}
+
+- (void)fetchingQuestionsFailedWithError:(NSError *)error
+{
+    
+}
+
+- (void)didReceiveQuestions:(NSArray *)questions
+{
+    
+}
+
+- (void)answersReceivedForQuestion:(Question *)question
+{
+    
 }
 
 @end

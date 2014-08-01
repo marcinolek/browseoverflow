@@ -7,11 +7,34 @@
 //
 
 #import "AppDelegate.h"
+#import "BrowseOverflowViewController.h"
+#import "TopicTableDataSource.h"
+#import "Topic.h"
+#import "BrowseOverflowConfigurationObject.h"
 
 @implementation AppDelegate
 
+- (NSArray *)topics
+{
+    NSString *tags[] = {@"iphone", @"cocoa-touch", @"uikit", @"objective-c", @"xcode"};
+    NSString *names[] = {@"iPhone", @"Cocoa Touch", @"UIKit", @"Objective-C", @"Xcode"};
+    NSMutableArray *topicList = [[NSMutableArray alloc] initWithCapacity:5];
+    for(NSInteger i = 0; i < 5; i++) {
+        Topic *topic = [[Topic alloc] initWithName:names[i] tag:tags[i]];
+        [topicList addObject:topic];
+    }
+    return [topicList copy];
+}
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    BrowseOverflowViewController *firstViewController = [[BrowseOverflowViewController alloc] init];
+    TopicTableDataSource *dataSource = [[TopicTableDataSource alloc] init];
+    [dataSource setTopics:[self topics]];
+    firstViewController.dataSource = dataSource;
+    firstViewController.objectConfiguration = [[BrowseOverflowConfigurationObject alloc] init];
+    UINavigationController *navVC = (UINavigationController *)self.window.rootViewController;
+    navVC.viewControllers = @[firstViewController];
+    
     // Override point for customization after application launch.
     return YES;
 }
