@@ -29,4 +29,10 @@
     }
 }
 
+- (BOOL)isEqual:(id)object
+{
+    Answer *otherAnswer = (Answer *)object;
+    return self.answerId == otherAnswer.answerId;
+}
+
 @end

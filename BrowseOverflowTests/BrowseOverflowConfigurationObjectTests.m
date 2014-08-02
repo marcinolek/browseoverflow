@@ -42,7 +42,9 @@
     XCTAssertNotNil(manager.communicator, @"Manager should have a Stackoverflow communicatior");
     XCTAssertNotNil(manager.questionBuilder, @"Manager should have a question builder");
     XCTAssertNotNil(manager.answerBuilder, @"Manager should have an answer builder");
+    XCTAssertNotNil(manager.bodyCommunicator, @"Manager needs a second Stackoverflow communicatior");
     XCTAssertEqualObjects(manager.communicator.delegate, manager, @"The manager is the communicator's delegate");
+    XCTAssertEqualObjects(manager.bodyCommunicator.delegate, manager, @"The manager is the body communicator's delegate");
 }
 
 - (void)testConfigurationOfCreatedAvatarStore

@@ -57,6 +57,7 @@
 - (void)testAddingAQuestionToTheList
 {
     Question *question = [[Question alloc] init];
+    question.questionID = 1;
     [topic addQuestion:question];
     XCTAssertEqual([[topic recentQuestions] count], (NSUInteger)1, @"Add a question and the count of questions should go up");
 }
@@ -64,8 +65,10 @@
 - (void)testQuestionsAreListedChronologically
 {
     Question *q1 = [[Question alloc] init];
+    q1.questionID = 1;
     q1.date = [NSDate distantPast];
     Question *q2 = [[Question alloc] init];
+    q2.questionID = 2;
     q2.date = [NSDate distantFuture];
     [topic addQuestion:q1];
     [topic addQuestion:q2];
@@ -79,6 +82,7 @@
 - (void)testLimitOfTwentyQuestions
 {
     Question *q1 = [[Question alloc] init];
+    q1.questionID = 99;
     for(NSInteger i = 0; i < 25; i++) {
         [topic addQuestion:q1];
     }

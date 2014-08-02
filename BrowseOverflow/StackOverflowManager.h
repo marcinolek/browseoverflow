@@ -33,11 +33,12 @@ enum {
 
 @interface StackOverflowManager : NSObject <StackOverflowCommunicatorDelegate>
 @property (strong) StackOverflowCommunicator *communicator;
+@property (strong) StackOverflowCommunicator *bodyCommunicator;
 @property (nonatomic, weak) id<StackOverflowManagerDelegate> delegate;
 @property (strong) QuestionBuilder *questionBuilder;
-@property (strong) AnswerBuilder *answerBuilder;
-@property (strong) Question *questionNeedingBody;
-@property (strong) Question *questionToFill;
+@property (nonatomic, strong) AnswerBuilder *answerBuilder;
+@property (nonatomic, strong) Question *questionNeedingBody;
+@property (nonatomic, strong) Question *questionToFill;
 
 - (void)fetchQuestionsOnTopic:(Topic *)topic;
 - (void)searchingForQuestionsFailedWithError:(NSError *)error;

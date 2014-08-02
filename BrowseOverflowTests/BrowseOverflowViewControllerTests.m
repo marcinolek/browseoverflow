@@ -146,7 +146,8 @@ static const char *viewWillDissapearKey = "BrowseOverflowViewControllerViewWillD
 - (void)testDefaultStateOfViewControllerDoesNotReceiveNotifications
 {
     [BrowseOverflowViewControllerTests swapInstanceMethodsForClass:[BrowseOverflowViewController class] selector:realUserDidSelectTopic andSelector:testUserDidSelectTopic];
-    [[NSNotificationCenter defaultCenter] postNotificationName:TopicTableDidSelectTopicNotification object:nil userInfo:nil];
+    Question *question = [[Question alloc] init];
+    [[NSNotificationCenter defaultCenter] postNotificationName:TopicTableDidSelectTopicNotification object:question userInfo:nil];
     XCTAssertNil(objc_getAssociatedObject(viewController, notificationKey), @"Notification should not be received before -viewDidAppear:");
     [BrowseOverflowViewControllerTests swapInstanceMethodsForClass:[BrowseOverflowViewController class] selector:realUserDidSelectTopic andSelector:testUserDidSelectTopic];
 }
@@ -165,7 +166,8 @@ static const char *viewWillDissapearKey = "BrowseOverflowViewControllerViewWillD
     [BrowseOverflowViewControllerTests swapInstanceMethodsForClass:[BrowseOverflowViewController class] selector:realUserDidSelectTopic andSelector:testUserDidSelectTopic];
     [viewController viewDidAppear:NO];
     [viewController viewWillDisappear:NO];
-    [[NSNotificationCenter defaultCenter] postNotificationName:TopicTableDidSelectTopicNotification object:nil userInfo:nil];
+    Question *question = [[Question alloc] init];
+    [[NSNotificationCenter defaultCenter] postNotificationName:TopicTableDidSelectTopicNotification object:question userInfo:nil];
     XCTAssertNil(objc_getAssociatedObject(viewController, notificationKey), @"After -viewWillDissapear: is called, the view controller should no longer respond to topic selection notification");
     [BrowseOverflowViewControllerTests swapInstanceMethodsForClass:[BrowseOverflowViewController class] selector:realUserDidSelectTopic andSelector:testUserDidSelectTopic];
 }
@@ -317,6 +319,7 @@ static const char *viewWillDissapearKey = "BrowseOverflowViewControllerViewWillD
     Topic *topic = [[Topic alloc] initWithName:@"iPhone" tag:@"iphone"];
     topicDataSource.topic = topic;
     Question *question1 = [[Question alloc] init];
+    question1.questionID = 1;
     [viewController didReceiveQuestions:@[question1]];
     XCTAssertEqualObjects(topic.recentQuestions.lastObject, question1, @"Question was added to the topic");
 }
@@ -363,6 +366,38 @@ static const char *viewWillDissapearKey = "BrowseOverflowViewControllerViewWillD
     viewController.dataSource = questionDetailDataSource;
     [viewController viewWillAppear:YES];
     XCTAssertNotNil(questionDetailDataSource.avatarStore, @"Question detail data source should be given an avatar store");
+}
+
+- (void)testViewControllerHooksUpQuestionListNotificiationCenterInViewDidAppear
+{
+    QuestionListTableDataSource *questionDataSource = [[QuestionListTableDataSource alloc] init];
+    viewController.dataSource = questionDataSource;
+    [viewController viewDidAppear:YES];
+    XCTAssertEqualObjects(questionDataSource.notificationCenter, [NSNotificationCenter defaultCenter], @"Question list data source should post noficiations to the default center");
+}
+
+- (void)testTableReloadedWhenQuestionBodyReceived
+{
+    QuestionDetailDataSource *questionDataSource = [[QuestionDetailDataSource alloc] init];
+    viewController.dataSource = questionDataSource;
+    ReloadDataWatcher *watcher = [[ReloadDataWatcher alloc] init];
+    viewController.tableView = (UITableView *)watcher;
+    [viewController bodyReceivedForQuestion:nil];
+    XCTAssertTrue([watcher didReceiveReloadData], @"Table reloaded when question body received");
+    
+}
+
+- (void)testThatOneQuestionIsAddedOnceToTopic
+{
+    
+    viewController.dataSource = topicDataSource;
+    Topic *topic = [[Topic alloc] initWithName:@"iPhone" tag:@"iphone"];
+    topicDataSource.topic = topic;
+    Question *question1 = [[Question alloc] init];
+    question1.questionID = 1;
+    [viewController didReceiveQuestions:@[question1, question1]];
+    XCTAssertEqual(topic.recentQuestions.count, (NSInteger)1, @"Same question should be added only once to topic");
+     
 }
 
 @end

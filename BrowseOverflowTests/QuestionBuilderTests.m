@@ -27,7 +27,7 @@ static NSString *questionJSON = @"{\"items\":[{\"tags\":[\"iphone\",\"objective-
 
 static NSString *stringIsNotJSON = @"Fake JSON";
 static NSString *noQuestionsJSONString = @"{ \"noitems\": true }";
-
+static NSString *emptyQuestionsArray = @"{ \"questions\": [] }";
 - (void)setUp
 {
     [super setUp];
@@ -133,6 +133,18 @@ static NSString *noQuestionsJSONString = @"{ \"noitems\": true }";
     XCTAssertEqualObjects(question.body, @"<p>I think I have been through probably 50 versions of this question today.  The closest answer I got was putting </p>\n\n<pre><code>- (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow: (UIWindow *)window{\n</code></pre>\n\n<p>into my app delegate and </p>\n\n<pre><code>-(BOOL)shouldAutorotate\n- (NSUInteger) supportedInterfaceOrientations\n</code></pre>\n\n<p>into the view controller I want to restrict to portrait mode.  In this setup what I found is that the methods in my view controller never get called.  The method in my appdelegate gets called whenever I do a tab bar based segue, but not when I do a push segue in a navigation controller.  </p>\n\n<p>I've seen several answers that want me to subclass navigation controllers, but there has to be a more straight forward way.</p>\n\n<p>I have an app with three tabs.  Tab 1 is just a home screen.  Tab 2 has a navigation controller feeding through two tableviewscontrollers, and the last table view segue's into a simple view controller.  Tab three goes to one tableviewcontroller which then does a push segue into the same simple view controller where tab 2 terminates.  </p>\n\n<p>I want that terminating view controller to always be in portrait.  The other scenes should be able to switch between portrait and landscape as needed.</p>\n\n<p>I am in xcode5 IOS7.<br>\nThanks</p>\n", @"The correct question body is added");
 }
 
+- (void)testEmptyQuestionsArrayDoesNotCrash
+{
+    XCTAssertNoThrow([questionBuilder fillInDetailsForQuestion:question fromJSON:emptyQuestionsArray], @"don't throw if no questions are found");
+}
 
+- (void)testQuestionsAreComparedByTheirId
+{
+    Question *question1 = [[Question alloc] init];
+    question1.questionID = 99;
+    Question *question2 = [[Question alloc] init];
+    question2.questionID = 99;
+    XCTAssertTrue([question1 isEqual:question2],@"Questions should be compared by id");
+}
 
 @end

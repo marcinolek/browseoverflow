@@ -22,6 +22,8 @@
     manager.communicator.delegate = manager;
     manager.questionBuilder = [[QuestionBuilder alloc] init];
     manager.answerBuilder = [[AnswerBuilder alloc] init];
+    manager.bodyCommunicator = [[StackOverflowCommunicator alloc] init];
+    manager.bodyCommunicator.delegate = manager;
     return manager;
 }
 

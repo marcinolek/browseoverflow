@@ -52,6 +52,7 @@
         QuestionListTableDataSource *ds = (QuestionListTableDataSource *)self.dataSource;
         ds.avatarStore = [self.objectConfiguration avatarStore];
         Topic *selectedTopic = [ds topic];
+        
         [self.manager fetchQuestionsOnTopic:selectedTopic];
         
     }
@@ -69,6 +70,10 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    if([self.dataSource isKindOfClass:[QuestionListTableDataSource class]]) {
+        QuestionListTableDataSource *ds = (QuestionListTableDataSource *)self.dataSource;
+        ds.notificationCenter = [NSNotificationCenter defaultCenter];
+    }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidSelectTopicNotification:) name:TopicTableDidSelectTopicNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidSelectQuestionNotification:) name:QuestionListDidSelectQuestionNotification object:nil];
 }

@@ -49,9 +49,11 @@
     answer1 = [[Answer alloc] init];
     answer1.text = @"<p>The real answer to the question is that good apps fall into one of three categories: portrait-only apps, landscape-only apps, and apps that support both orientations in all view controllers.  </p>\n\n<p>The UX design goal: the user controls the app, the app <strong>does not</strong> control the user.</p>\n\n<p>An app that has some view controllers that are portrait-only, and some view controllers that support rotation, is an app that is trying to control the user.  Specifically, when the user navigates to the portrait-only view, the app is forcing the user to physically rotate the device in response to the app's whims.</p>\n\n<p>In short, given that you have a view controller that only supports portrait, you should design a portrait-only app.  If you don't want a portrait-only app, then you need to figure out how to support rotation on that last view controller.</p>\n";
     answer1.score = 3;
+    answer1.answerId = 1;
     answer1.accepted = YES;
     Person *answerer = [[Person alloc] initWithName:@"Graham Lee" avatarLocation:@"http://example.com/avatar"];
     answer2 = [[Answer alloc] init];
+    answer2.answerId = 2;
     answer2.accepted = NO;
     answer2.score = -99;
     answer2.text = @"<p>strictly-for-the-birds answer</p>\n";
@@ -179,6 +181,11 @@
     XCTAssert(height >= cell.frame.size.height, @"Answer row should be at least as tall as its content");
 }
 
+- (void)testAnswerWithoutIdCannotBeAddedToAQuestion
+{
+    Answer *answer = [[Answer alloc] init];
+    XCTAssertThrows([question addAnswer:answer],@"Adding an answer without answer id is not allowed");
+}
 
 
 @end

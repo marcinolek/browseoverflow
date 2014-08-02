@@ -66,6 +66,20 @@
     [self.tableView reloadData];
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    if ([[self.topic recentQuestions] count] > 0) {
+        NSNotification *notification = [NSNotification notificationWithName: QuestionListDidSelectQuestionNotification object: [self.topic.recentQuestions objectAtIndex: indexPath.row]];
+        [self.notificationCenter postNotification: notification];
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 132.0;
+}
+
 @end
 
 NSString *QuestionListDidSelectQuestionNotification = @"QuestionListDidSelectQuestionNotification";

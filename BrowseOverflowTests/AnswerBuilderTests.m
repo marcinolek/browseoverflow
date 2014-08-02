@@ -90,6 +90,7 @@ static NSString *noAnswersJSONString = @"{ \"noanswers\" : true }";
     XCTAssertEqual(answer.score, (NSInteger)1, @"Score should equal 1");
     XCTAssertEqual(answer.accepted, NO, @"Answer should be not accepted as in JSON data");
     XCTAssertEqualObjects(answer.text, @"<p>The real answer to the question is that good apps fall into one of three categories: portrait-only apps, landscape-only apps, and apps that support both orientations in all view controllers.  </p>\n\n<p>The UX design goal: the user controls the app, the app <strong>does not</strong> control the user.</p>\n\n<p>An app that has some view controllers that are portrait-only, and some view controllers that support rotation, is an app that is trying to control the user.  Specifically, when the user navigates to the portrait-only view, the app is forcing the user to physically rotate the device in response to the app's whims.</p>\n\n<p>In short, given that you have a view controller that only supports portrait, you should design a portrait-only app.  If you don't want a portrait-only app, then you need to figure out how to support rotation on that last view controller.</p>\n", @"Answer text should match answer's body from JSON data");
+    XCTAssertEqual(answer.answerId,24897221);
 }
 
 - (void)testAnswerIsProvidedByExpectedPerson
@@ -102,5 +103,13 @@ static NSString *noAnswersJSONString = @"{ \"noanswers\" : true }";
 
 }
 
+- (void)testAnswersComparedByTheirId
+{
+    Answer *answer1 = [[Answer alloc] init];
+    answer1.answerId = 22;
+    Answer *answer2 = [[Answer alloc] init];
+    answer2.answerId = 22;
+    XCTAssertTrue([answer1 isEqual:answer2], @"Answers should be compared by their ids");
+}
 
 @end

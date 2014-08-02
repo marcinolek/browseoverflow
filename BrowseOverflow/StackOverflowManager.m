@@ -68,12 +68,13 @@
 - (void)fetchBodyForQuestion:(Question*)questionToFetch
 {
     self.questionNeedingBody = questionToFetch;
-    [self.communicator fetchBodyForQuestion:[questionToFetch questionID]];
+    [self.bodyCommunicator fetchBodyForQuestion:[questionToFetch questionID]];
 }
 
 - (void)fetchingQuestionBodyFailedWithError:(NSError *)error
 {
     [self tellDelegateAboutQuestionBodyRetrievalError:error];
+    self.questionNeedingBody = nil;
 }
 
 - (void)receivedQuestionBodyJSON:(NSString *)objectNotation
@@ -87,6 +88,11 @@
 {
     self.questionToFill = question;
     [self.communicator downloadAnswersToQuestionWithID:[question questionID]];
+}
+
+- (void)setQuestionToFill:(Question *)questionToFill
+{
+    _questionToFill = questionToFill;
 }
 
 - (void)fetchingAnswersFailedWithError:(NSError *)error

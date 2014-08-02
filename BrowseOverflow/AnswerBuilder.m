@@ -41,6 +41,7 @@
         answer.score = [dict[@"score"] integerValue];
         answer.accepted = [dict[@"is_accepted"] boolValue];
         answer.text = dict[@"body"];
+        answer.answerId = [dict[@"answer_id"] integerValue];
         NSDictionary *owner = dict[@"owner"];
         NSString *answererName = owner[@"display_name"];
         NSString *answererAvatarLocation = owner[@"profile_image"];

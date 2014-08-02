@@ -44,7 +44,9 @@
     question1 = [Question new];
     question1.title = @"Question One";
     question1.score = 2;
+    question1.questionID = 1;
     question2 = [Question new];
+    question2.questionID = 2;
     question2.title = @"Question Two";
     asker1 = [[Person alloc] initWithName:@"Marcin Olek" avatarLocation:@"http://gravatar.com/userimage/54427651/aa2bea90f6a2bc5307fe12ecc4d697bf.jpg"];
     question1.asker = asker1;
@@ -142,5 +144,12 @@
     
 }
 
+- (void)testHeightOfAQuestionRowIsAtLeastTheSameAsTheHeightOfTheCell
+{
+    [iPhoneTopic addQuestion:question1];
+    UITableViewCell *cell = [dataSource tableView:nil cellForRowAtIndexPath:firstCell];
+    NSInteger height = [dataSource tableView:nil heightForRowAtIndexPath:firstCell];
+    XCTAssertTrue(height >= cell.frame.size.height, @"Give the table enough space to draw the view");
+}
 
 @end

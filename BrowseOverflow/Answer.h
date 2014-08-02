@@ -11,6 +11,7 @@
 @interface Answer : NSObject
 @property (nonatomic, copy) NSString *text;
 @property (nonatomic) NSInteger score;
+@property (nonatomic) NSInteger answerId;
 @property (nonatomic, strong) Person *person;
 @property (nonatomic, getter=isAccepted) BOOL accepted;
 

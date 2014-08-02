@@ -28,18 +28,21 @@
     question.date = [NSDate distantPast];
     question.title = @"Do iPhones also dream of electric sheep?";
     question.score = 42;
-    
+    question.questionID = 1;
     Answer *accepted = [[Answer alloc] init];
+    accepted.answerId = 1;
     accepted.score = 1;
     accepted.accepted = YES;
     [question addAnswer:accepted];
     
     lowScore = [[Answer alloc] init];
     lowScore.score = -4;
+    lowScore.answerId = 2;
     [question addAnswer:lowScore];
     
     highScore = [[Answer alloc] init];
     highScore.score = 4;
+    highScore.answerId = 3;
     [question addAnswer:highScore];
     asker = [[Person alloc] initWithName:@"Marcin Olek" avatarLocation:@"http://example.com/avatar.png"];
     question.asker = asker;
@@ -78,6 +81,7 @@
 - (void)testQuestionCanHaveAnswersAdded
 {
     Answer *myAnswer = [[Answer alloc] init];
+    myAnswer.answerId = 1;
     XCTAssertNoThrow([question addAnswer:myAnswer ], @"Must be able to add answers");
 }
 

@@ -31,12 +31,21 @@
 
 - (void)addAnswer:(Answer *)answer
 {
-    [answerSet addObject:answer];
+    NSParameterAssert(answer.answerId);
+    if(![answerSet containsObject:answer]) {
+        [answerSet addObject:answer];
+    }
 }
 
 - (NSArray *)answers
 {
     return [[answerSet allObjects] sortedArrayUsingSelector:@selector(compare:)];
+}
+
+- (BOOL)isEqual:(id)object
+{
+    Question *otherQuestion = (Question *)object;
+    return self.questionID == otherQuestion.questionID;
 }
 
 @end

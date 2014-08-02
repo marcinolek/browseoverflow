@@ -30,7 +30,8 @@
 
 - (void)addQuestion:(Question *)question
 {
-    
+    NSParameterAssert(question.questionID);
+    if([questions containsObject:question]) return;
     NSArray *newQuestions = [questions arrayByAddingObject:question];
     if([newQuestions count] > 20) {
         newQuestions = [self sortQuestionsLatestFirst:newQuestions];

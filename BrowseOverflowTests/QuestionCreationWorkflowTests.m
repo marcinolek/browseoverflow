@@ -27,6 +27,7 @@
     FakeQuestionBuilder *questionBuilder;
     Question *questionToFetch;
     MockStackOverflowCommunicator *communicator;
+    MockStackOverflowCommunicator *bodyCommunicator;
 }
 
 - (void)setUp
@@ -43,7 +44,9 @@
     questionToFetch = [[Question alloc] init];
     questionArray = [NSArray arrayWithObject:questionToFetch];
     communicator = [[MockStackOverflowCommunicator alloc] init];
+    bodyCommunicator = [[MockStackOverflowCommunicator alloc] init];
     mgr.communicator = communicator;
+    mgr.bodyCommunicator = bodyCommunicator;
     // Put setup code here. This method is called before the invocation of each test method in the class.
 }
 
@@ -58,6 +61,7 @@
     questionToFetch = nil;
     questionArray = nil;
     communicator = nil;
+    bodyCommunicator = nil;
     [super tearDown];
 }
 
@@ -139,7 +143,7 @@
 - (void)testAskingForQuestionBodyMeansRequestingData
 {
     [mgr fetchBodyForQuestion:questionToFetch];
-    XCTAssertTrue([communicator wasAskedToFetchBody], @"The communicator should need to retrieve data for the question body");
+    XCTAssertTrue([bodyCommunicator wasAskedToFetchBody], @"The communicator should need to retrieve data for the question body");
 }
 
 - (void)testDlegateNotifiedOfFailureToFetchQuestionBody
@@ -161,6 +165,12 @@
     XCTAssertEqualObjects(questionBuilder.questionToFill, questionToFetch, @"The question should have been passed to the builder");
 }
 
+- (void)testManagerNotifiesDelegateWhenQuestionBodyIsReceived
+{
+    [mgr fetchBodyForQuestion:questionToFetch];
+    [mgr receivedQuestionBodyJSON:@"Fake JSON"];
+    XCTAssertEqualObjects(delegate.bodyQuestion, questionToFetch, @"Update delegate when question body filled");
+}
 
 
 @end

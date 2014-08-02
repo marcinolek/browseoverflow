@@ -56,7 +56,7 @@
 - (void)testFillingInQuestionBodyCallsQuestionAPI
 {
     [communicator downloadInformationForQuestionWithID: 12345];
-    XCTAssertEqualObjects([[communicator URLToFetch] absoluteString], @"http://api.stackexchange.com/2.2/questions/12345&site=stackoverflow&filter=!9YdnSJBlX", @"Use the question API to get the body for a question");
+    XCTAssertEqualObjects([[communicator URLToFetch] absoluteString], @"http://api.stackexchange.com/2.2/questions/12345?site=stackoverflow&filter=!9YdnSJBlX", @"Use the question API to get the body for a question");
 }
 
 - (void)testFetchingAnswersToQuestionCallsQuestionAPI
