@@ -16,7 +16,8 @@
 #import "BrowseOverflowConfigurationObject.h"
 #import "TestObjectConfiguration.h"
 #import "MockStackOverflowManager.h"
-
+#import "ReloadDataWatcher.h"
+#import "Answer.h"
 @interface BrowseOverflowViewControllerTests : XCTestCase {
     BrowseOverflowViewController *viewController;
     UITableView *tableView;
@@ -27,6 +28,8 @@
     SEL realUserDidSelectQuestion, testUserDidSelectQuestion;
     UINavigationController *navController;
     BrowseOverflowConfigurationObject *objectConfiguration;
+    QuestionListTableDataSource *topicDataSource;
+    QuestionDetailDataSource *questionDetailDataSource;
 }
 @end
 
@@ -97,6 +100,8 @@ static const char *viewWillDissapearKey = "BrowseOverflowViewControllerViewWillD
     testUserDidSelectTopic = @selector(browseOverflowViewController_userDidSelectTopicNotification:);
     testUserDidSelectQuestion = @selector(browseOverflowViewController_userDidSelectQuestionNotification:);
     navController = [[UINavigationController alloc] initWithRootViewController:viewController];
+    topicDataSource = [[QuestionListTableDataSource alloc] init];
+    questionDetailDataSource = [[QuestionDetailDataSource alloc] init];
 }
 
 - (void)tearDown
@@ -108,6 +113,8 @@ static const char *viewWillDissapearKey = "BrowseOverflowViewControllerViewWillD
     [BrowseOverflowViewControllerTests swapInstanceMethodsForClass:[UIViewController class] selector:realViewWillDisappear andSelector:testViewWillDisappear];
     [BrowseOverflowViewControllerTests swapInstanceMethodsForClass:[UIViewController class] selector:realViewDidAppear andSelector:testViewDidAppear];
     navController = nil;
+    topicDataSource = nil;
+    questionDetailDataSource = nil;
     [super tearDown];
 }
 
@@ -303,5 +310,59 @@ static const char *viewWillDissapearKey = "BrowseOverflowViewControllerViewWillD
     XCTAssertEqualObjects(viewController.manager.delegate, viewController, @"View controller sets itself as the manager's delegate");
 }
 
+- (void)testDownloadedQuestionsAreAddedToTopic
+{
+    
+    viewController.dataSource = topicDataSource;
+    Topic *topic = [[Topic alloc] initWithName:@"iPhone" tag:@"iphone"];
+    topicDataSource.topic = topic;
+    Question *question1 = [[Question alloc] init];
+    [viewController didReceiveQuestions:@[question1]];
+    XCTAssertEqualObjects(topic.recentQuestions.lastObject, question1, @"Question was added to the topic");
+}
+
+- (void)testTableViewReloadedDataWhenQuestionsReceived
+{
+    viewController.dataSource = topicDataSource;
+    ReloadDataWatcher *watcher = [[ReloadDataWatcher alloc] init];
+    viewController.tableView = (UITableView *)watcher;
+    [viewController didReceiveQuestions:@[]];
+    XCTAssertTrue([watcher didReceiveReloadData], @"Table view should be reloaded after fetching new data");
+}
+
+- (void)testTableViewReloadedDataWhenAnswersReceived
+{
+    viewController.dataSource = questionDetailDataSource;
+    ReloadDataWatcher *watcher = [[ReloadDataWatcher alloc] init];
+    viewController.tableView = (UITableView *)watcher;
+    Question *question = [[Question alloc] init];
+    [viewController answersReceivedForQuestion:question];
+    XCTAssertTrue([watcher didReceiveReloadData], @"Table view should be reloaded after fetching new data");
+}
+
+- (void)testTableViewReloadedDataWhenQuestionBodyReceived
+{
+    viewController.dataSource = questionDetailDataSource;
+    ReloadDataWatcher *watcher = [[ReloadDataWatcher alloc] init];
+    viewController.tableView = (UITableView *)watcher;
+    Question *question = [[Question alloc] init];
+    [viewController bodyReceivedForQuestion:question];
+    XCTAssertTrue([watcher didReceiveReloadData], @"Table view should be reloaded after fetching new data");
+}
+
+- (void)testQuestionListViewIsGivenAnAvatarStore
+{
+    QuestionListTableDataSource *questionDataSource = [[QuestionListTableDataSource alloc] init];
+    viewController.dataSource = questionDataSource;
+    [viewController viewWillAppear:YES];
+    XCTAssertNotNil(questionDataSource.avatarStore, @"Question list data source should be given an avatar store");
+}
+
+- (void)testQuestionDetailViewIsGivenAnAvatarStore
+{
+    viewController.dataSource = questionDetailDataSource;
+    [viewController viewWillAppear:YES];
+    XCTAssertNotNil(questionDetailDataSource.avatarStore, @"Question detail data source should be given an avatar store");
+}
 
 @end

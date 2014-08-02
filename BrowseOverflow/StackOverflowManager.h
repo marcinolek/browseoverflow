@@ -28,7 +28,7 @@ enum {
 - (void)didReceiveQuestions:(NSArray *)questions;
 - (void)fetchingAnswersFailedWithError:(NSError *)error;
 - (void)answersReceivedForQuestion: (Question *)question;
-
+- (void)bodyReceivedForQuestion: (Question *)question;
 @end
 
 @interface StackOverflowManager : NSObject <StackOverflowCommunicatorDelegate>
@@ -44,6 +44,7 @@ enum {
 - (void)receivedQuestionsJSON:(NSString *)objectNotation;
 
 - (void)fetchBodyForQuestion:(Question*)questionToFetch;
+- (void)fetchAnswersForQuestion:(Question *)question;
 - (void)fetchingQuestionBodyFailedWithError:(NSError *)error;
 - (void)receivedQuestionBodyJSON:(NSString *)objectNotation;
 

@@ -30,4 +30,10 @@
     self.fetchError = error;
 }
 
+- (void)bodyReceivedForQuestion:(Question *)question
+{
+    self.bodyQuestion = question;
+}
+
+
 @end

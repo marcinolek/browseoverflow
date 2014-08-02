@@ -12,6 +12,7 @@
 #import "QuestionDetailDataSource.h"
 #import "BrowseOverflowConfigurationObject.h"
 #import "StackOverflowManager.h"
+#import "Topic.h"
 #import <objc/runtime.h>
 
 @interface BrowseOverflowViewController ()
@@ -48,8 +49,20 @@
     self.manager = [self.objectConfiguration stackOverflowManager];
     self.manager.delegate = self;
     if([self.dataSource isKindOfClass:[QuestionListTableDataSource class]]) {
-        Topic *selectedTopic = [(QuestionListTableDataSource *)self.dataSource topic];
+        QuestionListTableDataSource *ds = (QuestionListTableDataSource *)self.dataSource;
+        ds.avatarStore = [self.objectConfiguration avatarStore];
+        Topic *selectedTopic = [ds topic];
         [self.manager fetchQuestionsOnTopic:selectedTopic];
+        
+    }
+    
+    if([self.dataSource isKindOfClass:[QuestionDetailDataSource class]]) {
+        QuestionDetailDataSource *ds = (QuestionDetailDataSource *)self.dataSource;
+        ds.avatarStore = [self.objectConfiguration avatarStore];
+        Question *question = [ds question];
+        [self.manager fetchBodyForQuestion:question];
+        [self.manager fetchAnswersForQuestion:question];
+        
     }
 }
 
@@ -109,12 +122,22 @@
 
 - (void)didReceiveQuestions:(NSArray *)questions
 {
+    Topic *topic = ((QuestionListTableDataSource *)self.dataSource).topic;
+    for(Question *q in questions) {
+        [topic addQuestion:q];
+    }
+    [self.tableView reloadData];
     
 }
 
 - (void)answersReceivedForQuestion:(Question *)question
 {
-    
+    [self.tableView reloadData];
+}
+
+- (void)bodyReceivedForQuestion:(Question *)question
+{
+    [self.tableView reloadData];
 }
 
 @end

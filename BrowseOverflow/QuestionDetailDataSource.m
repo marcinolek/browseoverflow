@@ -53,7 +53,7 @@ static NSString *questionDetailCellReuseIdentifier = @"QuestionDetail";
         
         Person *asker = self.question.asker;
         self.detailCell.askerNameLabel.text = asker.name;
-        self.detailCell.scoreLabel.text = [NSString stringWithFormat:@"%d",self.question.score];
+        self.detailCell.scoreLabel.text = [NSString stringWithFormat:@"%ld",(long)self.question.score];
         self.detailCell.titleLabel.text = self.question.title;
         NSData *avatarData = [self.avatarStore dataForURL:asker.avatarURL];
         if(avatarData) {
@@ -67,7 +67,7 @@ static NSString *questionDetailCellReuseIdentifier = @"QuestionDetail";
         if(!self.answerCell) {
             [[NSBundle bundleForClass:[self class]] loadNibNamed:@"AnswerCell" owner:self options:nil];
         }
-        self.answerCell.scoreLabel.text = [NSString stringWithFormat:@"%d",thisAnswer.score];
+        self.answerCell.scoreLabel.text = [NSString stringWithFormat:@"%ld",(long)thisAnswer.score];
         self.answerCell.acceptedLabel.hidden = thisAnswer.accepted;
         self.answerCell.answererNameLabel.text = answerer.name;
         [self.answerCell.bodyWebView loadHTMLString:[self HTMLStringForSnippet:thisAnswer.text] baseURL:nil];

@@ -11,6 +11,7 @@
 #import "StackOverflowCommunicator.h"
 #import "QuestionBuilder.h"
 #import "AnswerBuilder.h"
+#import "AvatarStore.h"
 
 @implementation BrowseOverflowConfigurationObject
 
@@ -22,6 +23,17 @@
     manager.questionBuilder = [[QuestionBuilder alloc] init];
     manager.answerBuilder = [[AnswerBuilder alloc] init];
     return manager;
+}
+
+- (AvatarStore *)avatarStore
+{
+    static AvatarStore *store = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        store = [[AvatarStore alloc] init];
+        [store useNotificationCenter:[NSNotificationCenter defaultCenter]];
+    });
+    return store;
 }
 
 @end

@@ -24,9 +24,7 @@
 		4558A79D198971A700EE1177 /* QuestionSummaryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4558A79C198971A700EE1177 /* QuestionSummaryCell.xib */; };
 		4558A79E198971A700EE1177 /* QuestionSummaryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4558A79C198971A700EE1177 /* QuestionSummaryCell.xib */; };
 		4558A7A2198976AC00EE1177 /* AvatarStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4558A7A1198976AC00EE1177 /* AvatarStore.m */; };
-		4558A7A3198976AC00EE1177 /* AvatarStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4558A7A1198976AC00EE1177 /* AvatarStore.m */; };
 		4558A7A7198976CF00EE1177 /* GravatarCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4558A7A5198976CF00EE1177 /* GravatarCommunicator.m */; };
-		4558A7A8198976CF00EE1177 /* GravatarCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4558A7A5198976CF00EE1177 /* GravatarCommunicator.m */; };
 		4558A7B11989770C00EE1177 /* AvatarStore+TestingExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4558A7AB1989770C00EE1177 /* AvatarStore+TestingExtensions.m */; };
 		4558A7B31989770C00EE1177 /* AvatarStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4558A7AD1989770C00EE1177 /* AvatarStoreTests.m */; };
 		4558A7B51989770C00EE1177 /* GravatarCommunicatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4558A7AF1989770C00EE1177 /* GravatarCommunicatorTests.m */; };
@@ -568,7 +566,6 @@
 				D3DD12FC1976D021003EA1AA /* PersonsTests.m in Sources */,
 				4544A93A198C245E0096C890 /* TestObjectConfiguration.m in Sources */,
 				4558A7BD198978BB00EE1177 /* FakeGravatarDelegate.m in Sources */,
-				4558A7A8198976CF00EE1177 /* GravatarCommunicator.m in Sources */,
 				455DB97519855BA30042911D /* InspectableStackOverflowCommunicator.m in Sources */,
 				45E322DD198192B800974DD4 /* AnswerBuilderTests.m in Sources */,
 				D307A76519757FA800E68B8A /* BrowseOverflowTests.m in Sources */,
@@ -577,7 +574,6 @@
 				45E67203197ECD2400D3EC0F /* FakeQuestionBuilder.m in Sources */,
 				D34A1E84197582C700F99DE0 /* TopicTests.m in Sources */,
 				4557C9BB1986CD3D00327818 /* BrowseOverflowViewControllerTests.m in Sources */,
-				4558A7A3198976AC00EE1177 /* AvatarStore.m in Sources */,
 				455DB978198590730042911D /* NonNetworkedStackOVerflowCommunicator.m in Sources */,
 				4558A7B11989770C00EE1177 /* AvatarStore+TestingExtensions.m in Sources */,
 			);

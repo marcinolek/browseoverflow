@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 
 @class StackOverflowManager;
+@class AvatarStore;
+
 @interface BrowseOverflowConfigurationObject : NSObject
 - (StackOverflowManager *)stackOverflowManager;
+- (AvatarStore *)avatarStore;
 @end
